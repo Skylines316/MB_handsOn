@@ -5,7 +5,7 @@ from math import sqrt
 import matplotlib.pyplot as plt
 
 def Delta(d, g):
-  return dblquad(lambda x, y: np.power(2*np.pi,-2)*2*d*g/np.sqrt(d**2*g**2/4 + 4*(np.cos((x+y)/sqrt(2))+np.cos((x-y)/sqrt(2)))**2), -np.pi/sqrt(2), np.pi/sqrt(2), lambda x: -np.pi/sqrt(2), lambda x: np.pi/sqrt(2))
+  return dblquad(lambda x, y: 2*np.power(2*np.pi,-2)*2*d*g/np.sqrt(d**2*g**2/4 + 4*(np.cos((x+y)/sqrt(2))+np.cos((x-y)/sqrt(2)))**2), -np.pi/sqrt(2), np.pi/sqrt(2), lambda x: -np.pi/sqrt(2), lambda x: np.pi/sqrt(2))
 
 def recursive(d, g):
   d1 = Delta(d, g)[0]
