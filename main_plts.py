@@ -62,21 +62,24 @@ plt.show()
 
 g, alpha, delta = np.loadtxt("Data/J=0.1/dataJ=0.1_U=0.01-18_100.dat", delimiter=',', unpack=True)
 
-plt.plot(g, np.power(0.5*alpha,2)+np.power((1-0.1/g)*delta,2), label=r'$\Delta_{CDW}^2 + \Delta_{SC}^2$')
+plt.plot(g, np.power(0.5*alpha,2)+np.power((1-0.1/g)*delta,2), label=r'$\Delta_{CDW}^2 + (1-J/U)\Delta_{SC}^2$')
+plt.plot(g, np.power(0.5*alpha,2)+np.power(delta,2), label=r'$\Delta_{CDW}^2 + \Delta_{SC}^2$')
 plt.legend()
 plt.grid(True)
 plt.title("J=0.1")
 plt.xlabel('U/t')
 plt.ylabel(r'$\Delta$')
+plt.savefig('Plots/Delta_vs_U_J=0.1.svg')
 plt.show()
 
-plt.scatter(np.power(0.5*alpha,2), np.power(delta,2), c=g, cmap='viridis', alpha=0.7)
+plt.scatter(0.5*alpha, delta, c=g, cmap='viridis', alpha=0.7)
 cbar = plt.colorbar()
 cbar.set_label('U/t')
 plt.grid(True)
 plt.title("J=0.1")
 plt.xlabel(r'$\Delta_{CDW}$')
 plt.ylabel(r'$\Delta_{SC}$')
+plt.savefig('Plots/Delta_vs_Delta_J=0.1.svg')
 plt.show()
 
 #######################
