@@ -67,8 +67,14 @@ def alpha(d, u, j, a):
 def recursive(d, u, j, a):
   d1 = Delta(d, u, j, a)[0]
   a1 = alpha(d, u, j, a)[0]
-  difd = d1 - d 
+  if a1<0:
+    a1 = 0
+  if d1<0:
+    d1 = 0
+  difd = d1 - d
   difa = a1 - a
+  # print(d1[1])
+  # print(difd, d1[0])
   if abs(difd) <= 1e-2 and abs(difa) <= 1e-2:
     return d1, a1
   return recursive(d1, u, j, a1)
@@ -76,11 +82,11 @@ def recursive(d, u, j, a):
 u_arr = np.linspace(0.01, 20, 200)
 d = []
 c = 1
-with open('dataJ=0.1_U=0.01-18_100_delta=0.dat', 'w') as file: 
+with open('dataJ=0.7_U=0.01-20_200_alpha=0.dat', 'w') as file: 
   for i in u_arr:
-    d, a = recursive(0, i, 0.1, i+1)
+    d, a = recursive(i+1, i, 0.7, 0)
     file.write(str(i)+","+str(a)+","+str(d)+"\n")
-    print(c,"/",len(u_arr), d-Delta(d, i, 0.1, a)[0], a-alpha(d, i, 0.1, a)[0])
+    print(c,"/",len(u_arr), d-Delta(d, i, 0.7, a)[0], a-alpha(d, i, 0.7, a)[0],"U="+str(i))
     # print(d-IntDelta(d, i, 0.1, a, rand.random(), 300, 0.5)[0], a-IntAlpha(d, i, 0.1, a, rand.random(), 300, 0.5)[0] )
     c+=1
 
