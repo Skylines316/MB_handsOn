@@ -60,9 +60,32 @@ plt.show()
 
 ######## J, SC ########
 
-g, alpha, delta = np.loadtxt("Data/J=0.1/dataJ=0.1_U=0.01-18_100_delta=0.dat", delimiter=',', unpack=True)
+g, alpha, delta = np.loadtxt("Data/J=0.1/dataJ=0.1_U=0.01-18_100.dat", delimiter=',', unpack=True)
 
-plt.plot(g,alpha, label='CDW')
+plt.plot(g, np.power(0.5*alpha,2)+np.power((1-0.1/g)*delta,2), label=r'$\Delta_{CDW}^2 + \Delta_{SC}^2$')
+plt.legend()
+plt.grid(True)
+plt.title("J=0.1")
+plt.xlabel('U/t')
+plt.ylabel(r'$\Delta$')
+plt.show()
+
+plt.scatter(np.power(0.5*alpha,2), np.power(delta,2), c=g, cmap='viridis', alpha=0.7)
+cbar = plt.colorbar()
+cbar.set_label('U/t')
+plt.grid(True)
+plt.title("J=0.1")
+plt.xlabel(r'$\Delta_{CDW}$')
+plt.ylabel(r'$\Delta_{SC}$')
+plt.show()
+
+#######################
+
+g1, alpha1, delta1 = np.loadtxt("Data/J=0.1/dataJ=0.1_U=0.01-18_100_delta=0.dat", delimiter=',', unpack=True)
+g2, alpha2, delta2 = np.loadtxt("Data/J=0.1/dataJ=0.1_U=0.01-18_100_alpha=0.dat", delimiter=',', unpack=True)
+
+plt.plot(g1,0.5*alpha1, label='CDW')
+plt.plot(g2,delta2, label='SC')
 plt.legend()
 plt.grid(True)
 plt.title("J=0.1")
