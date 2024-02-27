@@ -17,12 +17,13 @@ Z = zs.reshape(X.shape)
 
 ax.plot_surface(X, Y, Z)
 
+ax.set_title(r'Single orbital free electrons dispersion')
 ax.set_xlabel(r'$k_x$')
 ax.set_ylabel(r'$k_y$')
 ax.set_zlabel(r'$\xi_k$')
-plt.show()
-plt.savefig("Plots/FreeBand_Equal_t.svg")
 
+plt.savefig("Plots/FreeBand_Equal_t.svg")
+plt.show()
 
 ######## J=0, SC vs. CDW ########
 
@@ -53,10 +54,11 @@ plt.grid(True)
 plt.title("Energy for J=0.1")
 plt.xlabel('U/t')
 plt.ylabel(r'$\Delta$')
-plt.show()
-plt.savefig("Plots/Energy_J=0.1.svg")
 
-######## J, CDW ########
+plt.savefig("Plots/Energy_J=0.1.svg")
+plt.show()
+
+######## J, SC ########
 
 g, alpha, delta = np.loadtxt("Data/J=0.1/dataJ=0.1_U=0.01-18_100_delta=0.dat", delimiter=',', unpack=True)
 
