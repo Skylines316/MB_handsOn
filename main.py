@@ -9,7 +9,7 @@ def Delta(d, g):
 def recursive(d, g):
   d1 = Delta(d, g)[0]
   dif = d1 - d 
-  if abs(dif) <= 1e-1:
+  if abs(dif) <= 1e-2:
     return d1
   return recursive(d1, g)
 
