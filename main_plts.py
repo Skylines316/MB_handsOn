@@ -90,7 +90,7 @@ plt.show()
 
 ######## J, SC ########
 
-J_values = [0,0.1,0.3,0.5,0.7,1]
+J_values = [0,0.1,0.2,0.3,0.5,0.7,1]
 
 fig, (ax1, ax2) = plt.subplots(1, 2)
 
@@ -119,14 +119,14 @@ plt.show()
 
 fig, axs = plt.subplots(1, 2, figsize=(15, 5))
 
-g, alpha, delta = np.loadtxt("Data/J=0.1/dataJ=0.1_U=0.01-18_100.dat", delimiter=',', unpack=True)
-axs[0].plot(g, np.power(0.5*alpha,2)+np.power(delta,2), label=r'J=0.1')
-axs[1].plot(g, np.power(0.5*alpha,2)+np.power((1-0.1/g)*delta,2), label=r'J=0.1')
+# g, alpha, delta = np.loadtxt("Data/J=0.1/dataJ=0.1_U=0.01-18_100.dat", delimiter=',', unpack=True)
+# axs[0].plot(g, np.power(0.5*alpha,2)+np.power(delta,2), label=r'J=0.1')
+# axs[1].plot(g, np.power(0.5*alpha,2)+np.power((1-0.1/g)*delta,2), label=r'J=0.1')
 
 for i in range(np.size(J_values)):
     g, alpha, delta = np.loadtxt("Data/J="+str(J_values[i])+"/dataJ="+str(J_values[i])+"_U=0.01-20_200.dat", delimiter=',', unpack=True)
     axs[0].plot(g, np.power(0.5*alpha,2)+np.power(delta,2), label=r'J='+str(J_values[i]))
-    axs[1].plot(g, np.power(0.5*alpha,2)+np.power((1-0.1/g)*delta,2), label=r'J='+str(J_values[i]))
+    axs[1].plot(g, np.power(0.5*alpha,2)+np.power((1-J_values[i]/g)*delta,2), label=r'J='+str(J_values[i]))
 
 for ax in axs:
     ax.legend()
@@ -139,19 +139,17 @@ axs[1].set_title(r'$\Delta_{CDW}^2 + (1-J/U)^2\Delta_{SC}^2$')
 plt.savefig('Plots/Delta_Sum_vs_U.svg')
 plt.show()
 
-num_subplots = len(J_values) + 1  # +1 for the first subplot
+num_subplots = len(J_values)
 fig, axs = plt.subplots(1, num_subplots, figsize=(15, 5))
 
-g, alpha, delta = np.loadtxt("Data/J=0.1/dataJ=0.1_U=0.01-18_100.dat", delimiter=',', unpack=True)
-scatter = axs[0].scatter(0.5 * alpha, delta, c=g, cmap='viridis', alpha=0.7, label='J=0.1')
-axs[0].set_title('J=0.1')
-#cbar = fig.colorbar(scatter, ax=axs[0])
-#cbar.set_label('Colorbar Label')
+# g, alpha, delta = np.loadtxt("Data/J=0.1/dataJ=0.1_U=0.01-18_100.dat", delimiter=',', unpack=True)
+# scatter = axs[0].scatter(0.5 * alpha, delta, c=g, cmap='viridis', alpha=0.7, label='J=0.1')
+# axs[0].set_title('J=0.1')
 
 for i in range(len(J_values)):
     g, alpha, delta = np.loadtxt(f"Data/J={J_values[i]}/dataJ={J_values[i]}_U=0.01-20_200.dat", delimiter=',', unpack=True)
-    scatter = axs[i+1].scatter(0.5 * alpha, delta, c=g, cmap='viridis', alpha=0.7, label=f'J={J_values[i]}')
-    axs[i+1].set_title(f'J={J_values[i]}')
+    scatter = axs[i].scatter(0.5 * alpha, delta, c=g, cmap='viridis', alpha=0.7, label=f'J={J_values[i]}')
+    axs[i].set_title(f'J={J_values[i]}')
     #cbar = fig.colorbar(scatter, ax=axs[i+1])
     #cbar.set_label('U/t')
 
