@@ -84,9 +84,9 @@ d = []
 c = 1
 with open('dataJ=0.1_U=0.01-20_200_alpha=0.dat', 'w') as file: 
   for i in u_arr:
-    d, a = recursive(i+1, i, 0.7, i+1)
+    d, a = recursive(i+1, i, 0.1, i+1)
     file.write(str(i)+","+str(a)+","+str(d)+"\n")
-    print(c,"/",len(u_arr), d-Delta(d, i, 0.7, a)[0], a-alpha(d, i, 0.7, a)[0],"U="+str(i))
+    print(c,"/",len(u_arr), d-Delta(d, i, 0.1, a)[0], a-alpha(d, i, 0.1, a)[0],"U="+str(i))
     # print(d-IntDelta(d, i, 0.1, a, rand.random(), 300, 0.5)[0], a-IntAlpha(d, i, 0.1, a, rand.random(), 300, 0.5)[0] )
     c+=1
 
