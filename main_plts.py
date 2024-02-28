@@ -4,31 +4,31 @@ from mpl_toolkits.mplot3d import Axes3D
 
 ######## Fermion Dispersion ########
 
-kx = np.linspace(-np.pi, np.pi, 100)
-ky = np.linspace(-np.pi, np.pi, 100)
-def xi_k(kx,ky):
-    return -4*(np.cos(kx)+np.cos(ky))
+# kx = np.linspace(-np.pi, np.pi, 100)
+# ky = np.linspace(-np.pi, np.pi, 100)
+# def xi_k(kx,ky):
+#     return -4*(np.cos(kx)+np.cos(ky))
 
-fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')
-X, Y = np.meshgrid(kx, ky)
-zs = np.array(xi_k(np.ravel(X), np.ravel(Y)))
-Z = zs.reshape(X.shape)
+# fig = plt.figure()
+# ax = fig.add_subplot(111, projection='3d')
+# X, Y = np.meshgrid(kx, ky)
+# zs = np.array(xi_k(np.ravel(X), np.ravel(Y)))
+# Z = zs.reshape(X.shape)
 
-ax.plot_surface(X, Y, Z)
+# ax.plot_surface(X, Y, Z)
 
-ax.set_title(r'Single orbital free electrons dispersion')
-ax.set_xlabel(r'$k_x$')
-ax.set_ylabel(r'$k_y$')
-ax.set_zlabel(r'$\xi_k$')
+# ax.set_title(r'Single orbital free electrons dispersion')
+# ax.set_xlabel(r'$k_x$')
+# ax.set_ylabel(r'$k_y$')
+# ax.set_zlabel(r'$\xi_k$')
 
-plt.savefig("Plots/FreeBand_Equal_t.svg")
-plt.show()
+# plt.savefig("Plots/FreeBand_Equal_t.svg")
+# plt.show()
 
 ######## J=0, SC vs. CDW ########
 
-i3, data3 = np.loadtxt("data_cdw.dat", delimiter=',', unpack=True)
-i2, data2 = np.loadtxt("data2.dat", delimiter=',', unpack=True)
+i3, data3 = np.loadtxt("Data/J=0/data_cdw.dat", delimiter=',', unpack=True)
+i2, data2 = np.loadtxt("Data/J=0/data2.dat", delimiter=',', unpack=True)
 
 plt.plot(i3,data3, label='CDW')
 plt.plot(i2,2*data2, label='SC')
@@ -37,61 +37,117 @@ plt.grid(True)
 plt.title("Non interacting case: comparison between SC and CDW")
 plt.xlabel('U/t')
 plt.ylabel(r'$\Delta$')
+plt.savefig('SC_vs_CDW_J=0.svg')
 plt.show()
 
 ######## J, Energy ########
 
-g1, e1 = np.loadtxt("Data/energy/dataJ=0.1_U=0.01-18_100_alpha=0_energy.dat", delimiter=',', unpack=True)
-g2, e2 = np.loadtxt("Data/energy/dataJ=0.1_U=0.01-18_100_delta=0_energy.dat", delimiter=',', unpack=True)
-g3, e3 = np.loadtxt("Data/energy/dataJ=0.1_U=0.01-18_100_energy.dat", delimiter=',', unpack=True)
+# g1, e1 = np.loadtxt("Data/energy/dataJ=0.1_U=0.01-18_100_alpha=0_energy.dat", delimiter=',', unpack=True)
+# g2, e2 = np.loadtxt("Data/energy/dataJ=0.1_U=0.01-18_100_delta=0_energy.dat", delimiter=',', unpack=True)
+# g3, e3 = np.loadtxt("Data/energy/dataJ=0.1_U=0.01-18_100_energy.dat", delimiter=',', unpack=True)
 
-plt.scatter(g1,e1, label='Only SC', marker='.',s=8)
-plt.scatter(g2,e2, label='Only CDW', marker='*',s=8)
-plt.scatter(g3,e3, label='SC + CDW', marker='v',s=8)
+# plt.scatter(g1,e1, label='Only SC', marker='.',s=8)
+# plt.scatter(g2,e2, label='Only CDW', marker='*',s=8)
+# plt.scatter(g3,e3, label='SC + CDW', marker='v',s=8)
 
-plt.legend()
-plt.grid(True)
-plt.title("Energy for J=0.1")
-plt.xlabel('U/t')
-plt.ylabel(r'$\Delta$')
+# plt.legend()
+# plt.grid(True)
+# plt.title("Energy for J=0.1")
+# plt.xlabel('U/t')
+# plt.ylabel(r'$\Delta$')
 
-plt.savefig("Plots/Energy_J=0.1.svg")
-plt.show()
+# plt.savefig("Plots/Energy_J=0.1.svg")
+# plt.show()
 
 ######## J, SC ########
 
-g, alpha, delta = np.loadtxt("Data/J=0.1/dataJ=0.1_U=0.01-18_100.dat", delimiter=',', unpack=True)
+J_values = [0.3,0.5,0.7,1]
 
-plt.plot(g, np.power(0.5*alpha,2)+np.power((1-0.1/g)*delta,2), label=r'$\Delta_{CDW}^2 + (1-J/U)\Delta_{SC}^2$')
-plt.plot(g, np.power(0.5*alpha,2)+np.power(delta,2), label=r'$\Delta_{CDW}^2 + \Delta_{SC}^2$')
-plt.legend()
-plt.grid(True)
-plt.title("J=0.1")
-plt.xlabel('U/t')
-plt.ylabel(r'$\Delta$')
-plt.savefig('Plots/Delta_vs_U_J=0.1.svg')
+fig, (ax1, ax2) = plt.subplots(1, 2)
+
+g, alpha, delta = np.loadtxt("Data/J=0.1/dataJ=0.1_U=0.01-18_100.dat", delimiter=',', unpack=True)
+ax1.plot(g, alpha, label=r'J=0.1')
+ax2.plot(g, delta, label=r'J=0.1')
+
+for i in range(np.size(J_values)):
+    g, alpha, delta = np.loadtxt("Data/J="+str(J_values[i])+"/dataJ="+str(J_values[i])+"_U=0.01-20_200.dat", delimiter=',', unpack=True)
+    #plt.plot(g, np.power(0.5*alpha,2)+np.power(delta,2), label=r'J='+str(J_values[i]))
+    ax1.plot(g, alpha, label=r'J='+str(J_values[i]))
+    ax2.plot(g, delta, label=r'J='+str(J_values[i]))
+
+#plt.plot(g, np.power(0.5*alpha,2)+np.power((1-0.1/g)*delta,2), label=r'$\Delta_{CDW}^2 + (1-J/U)\Delta_{SC}^2$')
+ax1.legend()
+ax2.legend()
+ax1.grid(True)
+ax2.grid(True)
+ax1.set_title(r'$\Delta_{SC}$')
+ax2.set_title(r"$\Delta_{CDW}$")
+ax1.set_xlabel('U/t')
+ax2.set_xlabel('U/t')
+ax1.set_ylabel(r'$\Delta$')
+plt.savefig('Plots/Delta_vs_U.svg')
 plt.show()
 
-plt.scatter(0.5*alpha, delta, c=g, cmap='viridis', alpha=0.7)
-cbar = plt.colorbar()
+fig, axs = plt.subplots(1, 2, figsize=(15, 5))
+
+g, alpha, delta = np.loadtxt("Data/J=0.1/dataJ=0.1_U=0.01-18_100.dat", delimiter=',', unpack=True)
+axs[0].plot(g, np.power(0.5*alpha,2)+np.power(delta,2), label=r'J=0.1')
+axs[1].plot(g, np.power(0.5*alpha,2)+np.power((1-0.1/g)*delta,2), label=r'J=0.1')
+
+for i in range(np.size(J_values)):
+    g, alpha, delta = np.loadtxt("Data/J="+str(J_values[i])+"/dataJ="+str(J_values[i])+"_U=0.01-20_200.dat", delimiter=',', unpack=True)
+    axs[0].plot(g, np.power(0.5*alpha,2)+np.power(delta,2), label=r'J='+str(J_values[i]))
+    axs[1].plot(g, np.power(0.5*alpha,2)+np.power((1-0.1/g)*delta,2), label=r'J='+str(J_values[i]))
+
+for ax in axs:
+    ax.legend()
+    ax.set_xlabel(r'U/t')
+    ax.set_ylabel(r'$\Delta$')
+    ax.grid(True)
+
+axs[0].set_title(r'$\Delta_{CDW}^2 + \Delta_{SC}^2$')
+axs[1].set_title(r'$\Delta_{CDW}^2 + (1-J/U)^2\Delta_{SC}^2$')
+plt.savefig('Plots/Delta_Sum_vs_U.svg')
+plt.show()
+
+num_subplots = len(J_values) + 1  # +1 for the first subplot
+fig, axs = plt.subplots(1, num_subplots, figsize=(15, 5))
+
+g, alpha, delta = np.loadtxt("Data/J=0.1/dataJ=0.1_U=0.01-18_100.dat", delimiter=',', unpack=True)
+scatter = axs[0].scatter(0.5 * alpha, delta, c=g, cmap='viridis', alpha=0.7, label='J=0.1')
+axs[0].set_title('J=0.1')
+#cbar = fig.colorbar(scatter, ax=axs[0])
+#cbar.set_label('Colorbar Label')
+
+for i in range(len(J_values)):
+    g, alpha, delta = np.loadtxt(f"Data/J={J_values[i]}/dataJ={J_values[i]}_U=0.01-20_200.dat", delimiter=',', unpack=True)
+    scatter = axs[i+1].scatter(0.5 * alpha, delta, c=g, cmap='viridis', alpha=0.7, label=f'J={J_values[i]}')
+    axs[i+1].set_title(f'J={J_values[i]}')
+    #cbar = fig.colorbar(scatter, ax=axs[i+1])
+    #cbar.set_label('U/t')
+
+cbar = fig.colorbar(scatter, ax=axs[-1])
 cbar.set_label('U/t')
-plt.grid(True)
-plt.title("J=0.1")
-plt.xlabel(r'$\Delta_{CDW}$')
-plt.ylabel(r'$\Delta_{SC}$')
-plt.savefig('Plots/Delta_vs_Delta_J=0.1.svg')
+
+for ax in axs:
+    ax.set_xlabel(r'$\Delta_{CDW}$')
+    ax.set_ylabel(r'$\Delta_{SC}$')
+    ax.grid(True)
+
+plt.tight_layout()
+plt.savefig('Plots/Delta_vs_Delta.svg')
 plt.show()
 
 #######################
 
-g1, alpha1, delta1 = np.loadtxt("Data/J=0.1/dataJ=0.1_U=0.01-18_100_delta=0.dat", delimiter=',', unpack=True)
-g2, alpha2, delta2 = np.loadtxt("Data/J=0.1/dataJ=0.1_U=0.01-18_100_alpha=0.dat", delimiter=',', unpack=True)
+# g1, alpha1, delta1 = np.loadtxt("Data/J=0.1/dataJ=0.1_U=0.01-18_100_delta=0.dat", delimiter=',', unpack=True)
+# g2, alpha2, delta2 = np.loadtxt("Data/J=0.1/dataJ=0.1_U=0.01-18_100_alpha=0.dat", delimiter=',', unpack=True)
 
-plt.plot(g1,0.5*alpha1, label='CDW')
-plt.plot(g2,delta2, label='SC')
-plt.legend()
-plt.grid(True)
-plt.title("J=0.1")
-plt.xlabel('U/t')
-plt.ylabel(r'$\Delta$')
-plt.show()
+# plt.plot(g1,0.5*alpha1, label='CDW')
+# plt.plot(g2,delta2, label='SC')
+# plt.legend()
+# plt.grid(True)
+# plt.title("J=0.1")
+# plt.xlabel('U/t')
+# plt.ylabel(r'$\Delta$')
+# plt.show()
