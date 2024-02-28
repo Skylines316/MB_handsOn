@@ -42,7 +42,7 @@ plt.show()
 
 ######## J, Energy ########
 
-J_values = [0.1,0.3,0.5]
+J_values = [0.1,0.3,0.5,0.7,1]
 fig, axs = plt.subplots(1, len(J_values), figsize=(15, 5))
 
 for i in range(len(J_values)):
