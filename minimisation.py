@@ -58,12 +58,12 @@ ax.set_ylabel(r'$\alpha$')
 ax.set_zlabel(r'Energy')
 plt.show()
 
-guess = [0.5, 0.5]
+guess = [0.7, 0.7]
 bounds = [(0, 1), (0, 1)]
-J_value = 0
-Nk_value = 500
+J_value = 1.0
+Nk_value = 200
 kx, ky = np.meshgrid(np.linspace(-np.pi, np.pi, Nk_value), np.linspace(-np.pi, np.pi, Nk_value))
-U_list = np.linspace(0.01, 20, 50)
+U_list = np.linspace(0.1, 20, 20)
 Delta_min = np.zeros(len(U_list))
 alpha_min = np.zeros(len(U_list))
 
@@ -77,6 +77,7 @@ plt.plot(U_list,alpha_min, label='CDW')
 plt.legend()
 plt.grid(True)
 plt.xlabel('U/t')
-plt.ylabel(r'\Delta')
+plt.ylabel(r'$\Delta$')
 plt.title(f'J={J_value}')
+plt.savefig(f"Plots/Minimisation/J={J_value}_U=0.1-20_20.svg")
 plt.show()
