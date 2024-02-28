@@ -19,7 +19,7 @@ def sum_values_and_write_to_file(input_file, output_file):
       # row_sum = sum(map(int, row))
       writer.writerow([row[0],ene])
 
-input_file = './dataJ=0.1_U=0.01-18_100.dat'  # Replace 'input.csv' with the path to your input file
-output_file = './dataJ=0.1_U=0.01-18_100_energy.dat'  # Replace 'output.csv' with the path to your output file
+input_file = './Data/J=0.5/dataJ=0.5_U=0.01-20_200_delta=0.dat'  # Replace 'input.csv' with the path to your input file
+output_file = './Data/energy/J=0.5/dataJ=0.5_U=0.01-20_200_delta=0_energy.dat'  # Replace 'output.csv' with the path to your output file
 sum_values_and_write_to_file(input_file, output_file)
 # print("Sum of values in each row has been written to", output_file)
