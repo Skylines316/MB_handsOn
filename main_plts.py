@@ -29,9 +29,14 @@ from mpl_toolkits.mplot3d import Axes3D
 
 i3, data3 = np.loadtxt("Data/J=0/data_cdw.dat", delimiter=',', unpack=True)
 i2, data2 = np.loadtxt("Data/J=0/data2.dat", delimiter=',', unpack=True)
+g1, alpha1, delta1 = np.loadtxt("Data/J=0/dataJ=0_U=0.01-20_200_alpha=0.dat", delimiter=',', unpack=True)
+g2, alpha2, delta2 = np.loadtxt("Data/J=0/dataJ=0_U=0.01-20_200_delta=0.dat", delimiter=',', unpack=True)
+g3, alpha3, delta3 = np.loadtxt("Data/J=0/dataJ=0_U=0.01-20_200.dat", delimiter=',', unpack=True)
 
-plt.plot(i3,data3, label='CDW')
-plt.plot(i2,2*data2, label='SC')
+plt.plot(i3,np.sqrt(2)*data3, label='CDW')
+plt.plot(i2,2*np.sqrt(2)*data2, label='SC')
+plt.plot(g1,delta1, label='SC_W')
+plt.plot(g2,0.5*alpha2, label='CDW_W')
 plt.legend()
 plt.grid(True)
 plt.title("Non interacting case: comparison between SC and CDW")
@@ -85,13 +90,13 @@ plt.show()
 
 ######## J, SC ########
 
-J_values = [0.3,0.5,0.7,1]
+J_values = [0,0.1,0.3,0.5,0.7,1]
 
 fig, (ax1, ax2) = plt.subplots(1, 2)
 
-g, alpha, delta = np.loadtxt("Data/J=0.1/dataJ=0.1_U=0.01-20_200.dat", delimiter=',', unpack=True)
-ax1.plot(g, 0.5*alpha, label=r'J=0.1')
-ax2.plot(g, delta, label=r'J=0.1')
+# g, alpha, delta = np.loadtxt("Data/J=0.1/dataJ=0.1_U=0.01-20_200.dat", delimiter=',', unpack=True)
+# ax1.plot(g, 0.5*alpha, label=r'J=0.1')
+# ax2.plot(g, delta, label=r'J=0.1')
 
 for i in range(np.size(J_values)):
     g, alpha, delta = np.loadtxt("Data/J="+str(J_values[i])+"/dataJ="+str(J_values[i])+"_U=0.01-20_200.dat", delimiter=',', unpack=True)
@@ -109,7 +114,7 @@ ax2.set_title(r"$\Delta_{SC}$")
 ax1.set_xlabel('U/t')
 ax2.set_xlabel('U/t')
 ax1.set_ylabel(r'$\Delta$')
-plt.savefig('Plots/Delta_vs_U.svg')
+#plt.savefig('Plots/Delta_vs_U.svg')
 plt.show()
 
 fig, axs = plt.subplots(1, 2, figsize=(15, 5))
@@ -164,10 +169,10 @@ plt.show()
 
 #######################
 
-g1, alpha1, delta1 = np.loadtxt("Data/J=0.1/dataJ=0.1_U=0.01-20_200_alpha=0.dat", delimiter=',', unpack=True)
+g1, alpha1, delta1 = np.loadtxt("Data/J=0.1/dataJ=0.1_U=0.01-20_200.dat", delimiter=',', unpack=True)
 g2, alpha2, delta2 = np.loadtxt("Data/J=0.1/dataJ=0.1_U=0.01-10_200.dat", delimiter=',', unpack=True)
 
-plt.plot(g1,delta1, label='old')
+plt.plot(g1[0:100],delta1[0:100], label='old')
 plt.plot(g2,delta2, label='new')
 plt.legend()
 plt.grid(True)
