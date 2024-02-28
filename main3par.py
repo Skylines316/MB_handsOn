@@ -79,12 +79,12 @@ def recursive(d, u, j, a):
     return d1, a1
   return recursive(d1, u, j, a1)
 
-u_arr = np.linspace(0.01, 10, 200)
+u_arr = np.linspace(0.01, 20, 200)
 d = []
 c = 1
-with open('dataJ=0.2_U=0.01-10_200_alpha=0.dat', 'w') as file: 
+with open('dataJ=0.2_U=0.01-20_200.dat', 'w') as file: 
   for i in u_arr:
-    d, a = recursive(i+1, i, 0.2, 0)
+    d, a = recursive(i+1, i, 0.2, i+1)
     file.write(str(i)+","+str(a)+","+str(d)+"\n")
     print(c,"/",len(u_arr), a-alpha(d, i, 0.2, a)[0], d-Delta(d, i, 0.2, a)[0], "U="+str(i))
     # print(d-IntDelta(d, i, 0.1, a, rand.random(), 300, 0.5)[0], a-IntAlpha(d, i, 0.1, a, rand.random(), 300, 0.5)[0] )
