@@ -164,7 +164,7 @@ plt.show()
 
 #######################
 
-g1, alpha1, delta1 = np.loadtxt("Data/J=0.1/dataJ=0.1_U=0.01-20_200.dat", delimiter=',', unpack=True)
+g1, alpha1, delta1 = np.loadtxt("Data/J=0.1/dataJ=0.1_U=0.01-20_200_alpha=0.dat", delimiter=',', unpack=True)
 g2, alpha2, delta2 = np.loadtxt("Data/J=0.1/dataJ=0.1_U=0.01-10_200.dat", delimiter=',', unpack=True)
 
 plt.plot(g1,delta1, label='old')
