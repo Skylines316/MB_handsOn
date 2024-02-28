@@ -42,6 +42,33 @@ plt.show()
 
 ######## J, Energy ########
 
+J_values = [0.1,0.3,0.5]
+fig, axs = plt.subplots(1, len(J_values), figsize=(15, 5))
+
+for i in range(len(J_values)):
+    g1, e1 = np.loadtxt(f"Data/energy/dataJ={J_values[i]}_U=0.01-20_200_alpha=0_energy.dat", delimiter=',', unpack=True)
+    g2, e2 = np.loadtxt(f"Data/energy/dataJ={J_values[i]}_U=0.01-20_200_delta=0_energy.dat", delimiter=',', unpack=True)
+    g3, e3 = np.loadtxt(f"Data/energy/dataJ={J_values[i]}_U=0.01-20_200_energy.dat", delimiter=',', unpack=True)
+
+    axs[i].plot(g1,e1, label='Only SC', marker='.',s=8)
+    axs[i].plot(g2,e2, label='Only CDW', marker='*',s=8)
+    axs[i].plot(g3,e3, label='SC + CDW', marker='v',s=8)
+    axs[i].set_title(f'J={J_values[i]}')
+
+cbar = fig.colorbar(scatter, ax=axs[-1])
+cbar.set_label('U/t')
+
+for ax in axs:
+    ax.set_xlabel(r'$\Delta_{CDW}$')
+    ax.set_ylabel(r'$\Delta_{SC}$')
+    ax.grid(True)
+    ax.legend()
+
+plt.tight_layout()
+#plt.savefig('Plots/Delta_vs_Delta.svg')
+plt.show()
+
+
 # g1, e1 = np.loadtxt("Data/energy/dataJ=0.1_U=0.01-18_100_alpha=0_energy.dat", delimiter=',', unpack=True)
 # g2, e2 = np.loadtxt("Data/energy/dataJ=0.1_U=0.01-18_100_delta=0_energy.dat", delimiter=',', unpack=True)
 # g3, e3 = np.loadtxt("Data/energy/dataJ=0.1_U=0.01-18_100_energy.dat", delimiter=',', unpack=True)
