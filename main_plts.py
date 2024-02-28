@@ -56,8 +56,8 @@ for i in range(len(J_values)):
     axs[i].set_title(f'Energy, J={J_values[i]}')
 
 for ax in axs:
-    ax.set_xlabel(r'U/t$')
-    ax.set_ylabel(r'Energy$')
+    ax.set_xlabel(r'U/t')
+    ax.set_ylabel(r'Energy')
     ax.grid(True)
     ax.legend()
 
@@ -89,14 +89,14 @@ J_values = [0.3,0.5,0.7,1]
 
 fig, (ax1, ax2) = plt.subplots(1, 2)
 
-g, alpha, delta = np.loadtxt("Data/J=0.1/dataJ=0.1_U=0.01-18_100.dat", delimiter=',', unpack=True)
-ax1.plot(g, alpha, label=r'J=0.1')
+g, alpha, delta = np.loadtxt("Data/J=0.1/dataJ=0.1_U=0.01-20_200.dat", delimiter=',', unpack=True)
+ax1.plot(g, 0.5*alpha, label=r'J=0.1')
 ax2.plot(g, delta, label=r'J=0.1')
 
 for i in range(np.size(J_values)):
     g, alpha, delta = np.loadtxt("Data/J="+str(J_values[i])+"/dataJ="+str(J_values[i])+"_U=0.01-20_200.dat", delimiter=',', unpack=True)
     #plt.plot(g, np.power(0.5*alpha,2)+np.power(delta,2), label=r'J='+str(J_values[i]))
-    ax1.plot(g, alpha, label=r'J='+str(J_values[i]))
+    ax1.plot(g, 0.5*alpha, label=r'J='+str(J_values[i]))
     ax2.plot(g, delta, label=r'J='+str(J_values[i]))
 
 #plt.plot(g, np.power(0.5*alpha,2)+np.power((1-0.1/g)*delta,2), label=r'$\Delta_{CDW}^2 + (1-J/U)\Delta_{SC}^2$')
@@ -104,8 +104,8 @@ ax1.legend()
 ax2.legend()
 ax1.grid(True)
 ax2.grid(True)
-ax1.set_title(r'$\Delta_{SC}$')
-ax2.set_title(r"$\Delta_{CDW}$")
+ax1.set_title(r'$\Delta_{CDW}$')
+ax2.set_title(r"$\Delta_{SC}$")
 ax1.set_xlabel('U/t')
 ax2.set_xlabel('U/t')
 ax1.set_ylabel(r'$\Delta$')
