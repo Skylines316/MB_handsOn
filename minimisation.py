@@ -35,15 +35,15 @@ def xi(kx, ky):
 def energy(params, *args):
     Delta, Alpha = params
     U, J, kx, ky, Nk = args
-    return 2 * np.sum(xi(kx, ky) - np.sqrt(np.power(xi(kx, ky), 2) + (U - J)**2 * np.power(Delta, 2) + 0.25 * U**2 * np.power(Alpha, 2))) + 2 * Nk**2 * ((U - J) * np.power(Delta, 2) + U * (1 + 0.25 * np.power(Alpha, 2)))
+    return 2 / Nk**2 * np.sum(- np.sqrt(np.power(xi(kx, ky), 2) + (U - J)**2 * np.power(Delta, 2) + 0.25 * U**2 * np.power(Alpha, 2))) + 2 * ((U - J) * np.power(Delta, 2) + U * (1 + 0.25 * np.power(Alpha, 2)))
 
-Nk = 100
+Nk = 500
 kx, ky = np.meshgrid(np.linspace(-math.pi, math.pi, Nk), np.linspace(-math.pi, math.pi, Nk))
 dk = kx[0, 1] - kx[0, 0]
 
 Delta, Alpha = np.meshgrid(np.linspace(0, 1, 20), np.linspace(0, 1, 20))
 U_value = 1
-J_value = 0
+J_value = 0.1
 # Calculate the energy for each point in the mesh
 z = np.zeros_like(Delta)
 for i in range(Delta.shape[0]):
@@ -58,17 +58,17 @@ ax.set_ylabel(r'$\alpha$')
 ax.set_zlabel(r'Energy')
 plt.show()
 
-guess = [0.7, 0.7]
+guess = [0.1, 0.1]
 bounds = [(0, 1), (0, 1)]
-J_value = 1.0
-Nk_value = 200
+J_value = 0.05
+Nk_value = 500
 kx, ky = np.meshgrid(np.linspace(-np.pi, np.pi, Nk_value), np.linspace(-np.pi, np.pi, Nk_value))
-U_list = np.linspace(0.1, 20, 20)
+U_list = np.linspace(1, 20, 40)
 Delta_min = np.zeros(len(U_list))
 alpha_min = np.zeros(len(U_list))
 
 for i in range(len(U_list)):
-    result = minimize(energy, guess, args=(U_list[i], J_value, kx, ky, Nk_value), bounds=bounds)
+    result = minimize(energy, guess, args=(U_list[i], J_value, kx, ky, Nk_value), bounds=bounds, options={'xtol':1e-6, 'ftol':1e-6,})
     Delta_min[i] = result.x[0]
     alpha_min[i] = result.x[1]
 
@@ -79,5 +79,5 @@ plt.grid(True)
 plt.xlabel('U/t')
 plt.ylabel(r'$\Delta$')
 plt.title(f'J={J_value}')
-plt.savefig(f"Plots/Minimisation/J={J_value}_U=0.1-20_20.svg")
+#plt.savefig(f"Plots/Minimisation/J={J_value}_U=0.1-20_20.svg")
 plt.show()
