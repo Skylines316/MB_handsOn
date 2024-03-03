@@ -11,7 +11,7 @@ for i in range(len(J_values)):
     #g2, e2 = np.loadtxt(f"Data/energy/J={J_values[i]}/dataJ={J_values[i]}_U=0.01-20_200_delta=0_energy.dat", delimiter=',', unpack=True)
    # g3, e3 = np.loadtxt(f"Data/energy/J={J_values[i]}/dataJ={J_values[i]}_U=0.01-20_200_energy.dat", delimiter=',', unpack=True)
 
-    plt.plot(g1,e1, label=f"J={J_values[i]}", linestyle='-', marker='o', markersize=2)
+    plt.plot(g1[g1>J_values[i]],e1[g1>J_values[i]], label=f"J={J_values[i]}", linestyle='-', marker='o', markersize=2)
    # axs[i].plot(g2,e2, label='Only CDW', linestyle='-', marker='v', markersize=2)
     #axs[i].plot(g3,e3, label='SC + CDW', linestyle='-', marker='*', markersize=2)
     #axs[i].set_title(f'Energy, J={J_values[i]}')
