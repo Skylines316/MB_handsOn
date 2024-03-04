@@ -35,15 +35,15 @@ def xi(kx, ky):
 def energy(params, *args):
     Delta, Alpha = params
     U, J, kx, ky, Nk = args
-    return 2 / Nk**2 * np.sum(- np.sqrt(np.power(xi(kx, ky), 2) + (U - J)**2 * np.power(Delta, 2) + 0.25 * U**2 * np.power(Alpha, 2))) + 2 * ((U - J) * np.power(Delta, 2) + U * (1 + 0.25 * np.power(Alpha, 2)))
+    return 2 / Nk**2 * np.sum(- np.sqrt(np.power(xi(kx, ky), 2) + (U - J)**2 * np.power(Delta, 2) + 0.25 * U**2 * np.power(Alpha, 2))) + 2 * ((U - J) * np.power(Delta, 2) + U * (0.5 * np.power(Alpha, 2)))
 
 Nk = 500
 kx, ky = np.meshgrid(np.linspace(-math.pi, math.pi, Nk), np.linspace(-math.pi, math.pi, Nk))
 dk = kx[0, 1] - kx[0, 0]
 
-Delta, Alpha = np.meshgrid(np.linspace(0, 1, 20), np.linspace(0, 1, 20))
-U_value = 1
-J_value = 0.1
+Delta, Alpha = np.meshgrid(np.linspace(-1, 1, 50), np.linspace(-1, 1, 50))
+U_value = 10
+J_value = 2.
 # Calculate the energy for each point in the mesh
 z = np.zeros_like(Delta)
 for i in range(Delta.shape[0]):
@@ -56,6 +56,8 @@ ax.plot_surface(Delta, Alpha, z, cmap='viridis')
 ax.set_xlabel(r'$\Delta$')
 ax.set_ylabel(r'$\alpha$')
 ax.set_zlabel(r'Energy')
+
+ax.set_title(f'Energy surface for U={U_value} and J={J_value}')
 plt.show()
 
 guess = [0.1, 0.1]
