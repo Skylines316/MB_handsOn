@@ -186,6 +186,9 @@ plt.tight_layout()
 plt.savefig('Plots/Delta_vs_Delta.svg')
 plt.show()
 
+9.271176354418479981e-01**2 + 3.747706267980271400e-01**2
+np.pi/2
+
 #######################
 
 g1, alpha1, delta1 = np.loadtxt("Data/J=0.1/dataJ=0.1_U=0.01-20_200.dat", delimiter=',', unpack=True)

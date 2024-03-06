@@ -47,30 +47,10 @@ def con(t):
 
 Nk = 500
 kx, ky = np.meshgrid(np.linspace(-math.pi, math.pi, Nk), np.linspace(-math.pi, math.pi, Nk))
-dk = kx[0, 1] - kx[0, 0]
-
-U_value = 0.1
-J_value = 2.
-Rho, Theta = np.meshgrid(np.linspace(0, abs(1*(U_value-J_value)), 50), np.linspace(0, 2*np.pi, 50))
-# Calculate the energy for each point in the mesh
-z = np.zeros_like(Rho)
-for i in range(Rho.shape[0]):
-    for j in range(Rho.shape[1]):
-        z[i, j] = energy_circle([Rho[i, j], Theta[i, j]], U_value, J_value, kx, ky, Nk)
-
-fig = plt.figure(figsize=(8, 6))
-ax = fig.add_subplot(111, projection="3d")
-ax.plot_surface(Rho, Theta, z, cmap='viridis')
-ax.set_xlabel(r'$\rho$')
-ax.set_ylabel(r'$\theta$')
-ax.set_zlabel(r'Energy')
-ax.set_title(f'Energy surface for U={U_value} and J={J_value}')
-# plt.savefig(f"Plots/Surfaces/J={J_value}_U={U_value}.svg")
-plt.show()
 
 Delta, Alpha = np.meshgrid(np.linspace(-1, 1, 50), np.linspace(-1, 1, 50))
-U_value = 0.1
-J_value = 4.
+U_value = 4.9
+J_value = 5.
 # Calculate the energy for each point in the mesh
 z = np.zeros_like(Delta)
 for i in range(Delta.shape[0]):
@@ -84,14 +64,14 @@ ax.set_xlabel(r'$\Delta_{SC}$')
 ax.set_ylabel(r'$\Delta_{CDW}$')
 ax.set_zlabel(r'Energy')
 ax.set_title(f'Energy surface for U={U_value} and J={J_value}')
-# plt.savefig(f"Plots/Surfaces/J={J_value}_U={U_value}.svg")
+plt.savefig(f"Plots/Surfaces/J={J_value}_U={U_value}.svg")
 plt.show()
 
 #####################################################
 
 bounds = [(0, 1), (0, 1)]
 cons = {'type':'ineq', 'fun': con}
-J_value = 1.
+J_value = 0.
 Nk_value = 600
 kx, ky = np.meshgrid(np.linspace(-np.pi, np.pi, Nk_value), np.linspace(-np.pi, np.pi, Nk_value))
 U_list = np.linspace(0.1, 10, 40)
@@ -103,7 +83,7 @@ for i in range(len(guess[0,:])):
     if (U_list[i]<J_value):
         guess[:,i]=[0.9,0.1]
     if (U_list[i]>=J_value):
-        guess[:,i]=[0.,0.2]
+        guess[:,i]=[0.01,0.01] # [0.,0.2]
 
 for i in range(len(U_list)):
     # guess = [0.9, max((U_list[i]-J_value)/U_list[i],0)]
@@ -111,7 +91,7 @@ for i in range(len(U_list)):
     Delta_min[i] = result.x[0]
     alpha_min[i] = result.x[1]
 
-np.savetxt(f'Data/minimisation/datanewJ={J_value}_U={U_list[0]}-{U_list[-1]}_{len(U_list)}.dat', np.c_[U_list,Delta_min,alpha_min], delimiter=',') 
+# np.savetxt(f'Data/minimisation/datanewJ={J_value}_U={U_list[0]}-{U_list[-1]}_{len(U_list)}.dat', np.c_[U_list,Delta_min,alpha_min], delimiter=',') 
 
 plt.figure()
 plt.plot(U_list, Delta_min, label='SC', marker = 'o',markersize=4)
@@ -121,7 +101,7 @@ plt.grid(True)
 plt.xlabel('U')
 plt.ylabel(r'$\Delta$')
 plt.title(f'J={J_value}')
-plt.savefig(f"Plots/Minimisation/J={J_value}_U={U_list[0]}-{U_list[-1]}_{len(U_list)}.svg")
+# plt.savefig(f"Plots/Minimisation/J={J_value}_U={U_list[0]}-{U_list[-1]}_{len(U_list)}.svg")
 plt.show()
 
 J_value = 2.
@@ -146,7 +126,7 @@ kx, ky = np.meshgrid(np.linspace(-np.pi, np.pi, Nk_value), np.linspace(-np.pi, n
 J_list = [0.0,1.0,2.0,3.0,4.0,5.0,6.0,7.0]
 data = []
 for i in range(len(J_list)):
-    data.append(np.loadtxt(f'Data/minimisation/datanewJ={J_list[i]}_U=0.1-10.0_40.dat', delimiter=',',unpack=True))
+    data.append(np.loadtxt(f'Data/minimisation/dataJ={J_list[i]}_U=0.1-10.0_40.dat', delimiter=',',unpack=True))
 data = np.array(data)
 
 en = np.zeros((len(J_list),len(data[0,0,:])))
@@ -167,7 +147,7 @@ plt.grid(True)
 plt.xlabel('U')
 plt.ylabel('Energy')
 plt.title('Ground state energy')
-# plt.savefig('Plots/Minimisation/Energy_vs_U.svg')
+# plt.savefig('Plots/Minimisation/EnergyOld_vs_U.svg')
 plt.show()
 
 ##############################################
@@ -177,7 +157,7 @@ J_list = [0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0]
 fig, axs = plt.subplots(2, len(J_list)//2, figsize=(15, 8))
 
 for i in range(len(J_list)):
-    g, delta, alpha = np.loadtxt(f"Data/minimisation/datanewJ={J_list[i]}_U=0.1-10.0_40.dat", delimiter=',', unpack=True)
+    g, delta, alpha = np.loadtxt(f"Data/minimisation/dataJ={J_list[i]}_U=0.1-10.0_40.dat", delimiter=',', unpack=True)
     axs[i // (len(J_list) // 2), i % (len(J_list) // 2)].plot(g, delta, label=r'$\Delta_{SC}$', linestyle='-', marker='o', markersize=3)
     axs[i // (len(J_list) // 2), i % (len(J_list) // 2)].plot(g, alpha, label=r'$\Delta_{CDW}$', linestyle='-', marker='o', markersize=3)
     axs[i // (len(J_list) // 2), i % (len(J_list) // 2)].set_title(f'J={J_list[i]}')
@@ -189,5 +169,5 @@ for ax in axs.flat:
     ax.legend()
 
 plt.tight_layout()
-plt.savefig('Plots/Minimisation/Delta_vs_U.svg')
+plt.savefig('Plots/Minimisation/DeltaOld_vs_U.svg')
 plt.show()
