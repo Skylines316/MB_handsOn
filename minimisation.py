@@ -144,4 +144,5 @@ for ax in axs:
 plt.tight_layout()
 plt.savefig('Plots/Minimisation/Delta_vs_U.svg')
 plt.show()
+################################################################################
 
