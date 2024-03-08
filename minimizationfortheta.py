@@ -76,6 +76,7 @@ for i in range(len(J_list)):
             a_min[j] = result.x
             en[i,j] = energy(a_min[j],U_list[j], kx, ky, Nk_value)
     plt.plot(U_list[:],en[i,:],label=f'J={J_list[i]}',linestyle='-', marker='o',markersize=3)
+    np.savetxt(f'Data/minimisation/datascalarJ={J_list[i]}_U={U_list[0]}-{U_list[-1]}_{len(U_list)}.dat', np.c_[U_list,a_min], delimiter=',') 
 
 plt.legend()
 plt.grid(True)
@@ -109,21 +110,22 @@ plt.ylabel(r'Energy')
 plt.savefig(f"Plots/Minimisation/Boundary_energy_angle_J={J_value}_U={U_list[0]}-{U_list[-1]}_{len(U_list)}.svg")
 plt.show()
 '''
-
-# u5, d5, a5 = np.loadtxt(f'Data/minimisation/dataJ=5.0_U=0.1-10.0_40.dat', delimiter=',',unpack=True)
-# en5=np.zeros(len(u5))
-# for j in range(len(en5)):
-#     en5[j] = energy([d5[j], a5[j]], u5[j], 5.0, kx, ky, Nk_value)
-# plt.plot(u5,en5,label=f'new',linestyle='-', marker='o',markersize=3)
-
-
-'''
+J_list = [0.0,1.0,2.0,3.0,4.0,5.0,6.0,7.0]
 fig, axs = plt.subplots(2, len(J_list)//2, figsize=(15, 8))
 
 for i in range(len(J_list)):
-    g, delta, alpha = np.loadtxt(f"Data/minimisation/dataJ={J_list[i]}_U=0.1-10.0_40.dat", delimiter=',', unpack=True)
-    axs[i // (len(J_list) // 2), i % (len(J_list) // 2)].plot(g, delta, label=r'$\Delta_{SC}$', linestyle='-', marker='o', markersize=3)
-    axs[i // (len(J_list) // 2), i % (len(J_list) // 2)].plot(g, alpha, label=r'$\Delta_{CDW}$', linestyle='-', marker='o', markersize=3)
+    U, a = np.loadtxt(f"Data/minimisation/datascalarJ={J_list[i]}_U=0.1-10.0_100.dat", delimiter=',', unpack=True)
+    alpha = np.zeros(len(U))
+    delta = np.zeros(len(U))
+    for j in range(len(U)):
+        if(U[j]<J_list[i]):
+            alpha[j] = np.sin(a[j])
+            delta[j] = np.cos(a[j])
+        else:
+            alpha[j] = 0
+            delta[j] = a[j]
+    axs[i // (len(J_list) // 2), i % (len(J_list) // 2)].plot(U, alpha, label=r'$\Delta_{SC}$', linestyle='-', marker='o', markersize=3)
+    axs[i // (len(J_list) // 2), i % (len(J_list) // 2)].plot(U, delta, label=r'$\Delta_{CDW}$', linestyle='-', marker='o', markersize=3)
     axs[i // (len(J_list) // 2), i % (len(J_list) // 2)].set_title(f'J={J_list[i]}')
 
 for ax in axs.flat:
@@ -133,5 +135,6 @@ for ax in axs.flat:
     ax.legend()
 
 plt.tight_layout()
-plt.savefig('Plots/Minimisation/DeltaOld_vs_U.svg')
-'''
+plt.show()
+plt.savefig('Plots/Minimisation/Deltascalar_vs_U.svg')
+
