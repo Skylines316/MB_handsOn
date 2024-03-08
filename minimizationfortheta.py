@@ -134,7 +134,7 @@ for ax in axs.flat:
     ax.grid(True)
     ax.legend()
 
-plt.tight_layout()
-plt.show()
-plt.savefig('Plots/Minimisation/Deltascalar_vs_U.svg')
+fig.tight_layout()
+fig.show()
+fig.savefig('Plots/Minimisation/Deltascalar_vs_U.svg')
 
