@@ -71,7 +71,7 @@ plt.show()
 
 bounds = [(0, 1), (0, 1)]
 cons = {'type':'ineq', 'fun': con}
-J_value = 0.
+J_value = 5.
 Nk_value = 600
 kx, ky = np.meshgrid(np.linspace(-np.pi, np.pi, Nk_value), np.linspace(-np.pi, np.pi, Nk_value))
 U_list = np.linspace(0.1, 10, 40)
@@ -147,7 +147,7 @@ plt.grid(True)
 plt.xlabel('U')
 plt.ylabel('Energy')
 plt.title('Ground state energy')
-# plt.savefig('Plots/Minimisation/EnergyOld_vs_U.svg')
+plt.savefig('Plots/Minimisation/EnergyOld_vs_U.svg')
 plt.show()
 
 ##############################################
@@ -169,5 +169,6 @@ for ax in axs.flat:
     ax.legend()
 
 plt.tight_layout()
-plt.savefig('Plots/Minimisation/DeltaOld_vs_U.svg')
+plt.savefig('Plots/Minimisation/Delta_vs_U.svg')
 plt.show()
+################################################################################
